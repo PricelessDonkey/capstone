@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Evaluate News</title>
+        <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Cuprum&display=swap" rel="stylesheet">
+    </head>
+    <body class="center">
+        <header class="header">
+            <div class="title">
+                News Evaluator 2020
+            </div>
+        </header>
+
+        <main>
+            <section>
+                <form class="" onsubmit="return Client.handleSubmit(event)">
+                    <input id="name" type="text" name="input" value="" placeholder="Enter URL to evaluate here">
+                    <input type="submit" class="submit-button" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
+                </form>
+            <section>
+
+            <section class="main-grid">
+                <div class="polarity">
+                    <div id="polarity"></div>
+                    <div id="polarity_confidence"></div>
+                </div>
+                <div class="subjectivity">
+                    <div id="subjectivity"></div>
+                    <div id="subjectivity_confidence"></div>
+                </div>
+                <div class="text-sample">
+                    <p id="text"></p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>hi, this is the footer</p>
+        </footer>
+        <script>
+            // Check that service workers are supported
+            if ('serviceWorker' in navigator) {
+              // Use the window load event to keep the page load performant
+              window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js');
+              });
+            }
+        </script>
+    </body>
+</html>
