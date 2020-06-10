@@ -3,49 +3,46 @@
     <head>
         <meta charset="utf-8">
         <title>Evaluate News</title>
-        <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Cuprum&display=swap" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body class="center">
-        <header class="header">
-            <div class="title">
-                News Evaluator 2020
-            </div>
+    <body>
+        <header>
+            <h1>
+                Trip Planner
+            </h1>
         </header>
-
-        <main>
-            <section>
-                <form class="" onsubmit="return Client.handleSubmit(event)">
-                    <input id="name" type="text" name="input" value="" placeholder="Enter URL to evaluate here">
-                    <input type="submit" class="submit-button" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
-                </form>
-            <section>
-
-            <section class="main-grid">
-                <div class="polarity">
-                    <div id="polarity"></div>
-                    <div id="polarity_confidence"></div>
-                </div>
-                <div class="subjectivity">
-                    <div id="subjectivity"></div>
-                    <div id="subjectivity_confidence"></div>
-                </div>
-                <div class="text-sample">
-                    <p id="text"></p>
-                </div>
+        <form>
+                <section class="form-field">
+                    <label for="where">Where?</label>
+                    <input id="city" type="text" name="input" value="" placeholder="Enter a city">
+                </section>
+                <section class="form-field">
+                    <label for="depart">Depart?</label>
+                    <input id="depart" type="date" name="input" value="">
+                </section>
+                <section class="form-field">
+                    <label for="return">Return?</label>
+                    <input id="return" type="date" name="input" value="">
+                </section>
+                <section class="form-field">
+                    <input type="submit" id="submit-button" value="Let's go!">
+                </section>
+        </form>
+        <section class="trip">
+            <!-- <section class="image">
+                <img src={placeholder} alt="placeholder" width="360" height="240">
             </section>
-        </main>
-
+            <section class="info">
+                <div class="trip-info">
+                    <h2 id="trip-to">Ahh, 10 days in Mozambique...</h2>
+                    <h2 id="leavin-on">Leavin' on July 4th, 2020?</h2>
+                </div>
+                <h3 id="countdown">That's in 32 days!</h3>
+                <h4 id="typical-weather">Typically the high's around 85 degrees and the lows around 74 degrees... nice!</h4>
+            </section> -->
+        </section>
         <footer class="footer">
             <p>hi, this is the footer</p>
         </footer>
-        <script>
-            // Check that service workers are supported
-            if ('serviceWorker' in navigator) {
-              // Use the window load event to keep the page load performant
-              window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js');
-              });
-            }
-        </script>
     </body>
 </html>

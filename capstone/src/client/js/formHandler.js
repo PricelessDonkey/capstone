@@ -1,57 +1,96 @@
 import 'regenerator-runtime/runtime.js' // for jest tests
 
 function handleSubmit(event) {
-    event.preventDefault()
+  event.preventDefault()
 
-    // check what text was put into the form field
-    let userEntry = document.getElementById('name').value
-    if (!Client.checkForUrl(userEntry)) {
-        alert('URL must start with http:// or https://')
-        return;
-    }
-    
-    postData('/submit', { urlString: userEntry })
+  // add function to validate inputs
+  // fields may not be empty, dates must be chronological
+  let city = document.getElementById('city').value
+  let depart = document.getElementById('depart').value
+  let comeback = document.getElementById('return').value
+
+  // if (!Client.checkForUrl(userEntry)) {
+  //     alert('URL must start with http:// or https://')
+  //     return;
+  // }
+
+  // let requestPayload = {
+  //   city: city,
+  //   depart: depart,
+  //   comeback: comeback
+  // }
+
+  const geoNameBaseURL = 'http://api.geonames.org/searchJSON?q='
+  const geoNameUserName = '&fuzzy=0&maxRows=1&username=sdrilias'
+  const URL = geoNameBaseURL + city + geoNameUserName;
+  console.log(URL);
+  let encodedURL = encodeURI(URL);
+
+  fetch(encodedURL)
+    .then(response => response.json())
+    .then(data => {
+      // latitude, longitude, country
+      let latitude = data.geonames[0].lat
+      let longitude = data.geonames[0].lng
+      let country = data.geonames[0].countryName
+
+      // save to server
+      let requestPayload = {
+        latitude: latitude,
+        longitude:longitude,
+        country: country,
+        city: city,
+        depart: depart,
+        comeback: comeback
+      }
+
+      postData('/submit', requestPayload)
         .then(() => updateUI())
         .catch(function (error) {
-            alert(error)
+          alert(error)
         })
+    });
 };
 
 // post data
-const postData = async (url = '', data = {}) => {
-  
-    const response = await fetch(url, {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    if (response.status != 201) throw new Error('bad request');
-  }
-  
+const postData = async (url = '', requestPayload = {}) => {
+
+  fetch(url, {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestPayload),
+  })
+}
+
 const updateUI = async () => {
-    
-    const request = await fetch('/all');
-    try {
-        const allData = await request.json();
+  fetch('/all')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    });
+}
 
-        const index = allData.length - 1;
+// `<section class="image">
+// <img src={placeholder} alt="placeholder" width="360" height="240">
+// </section>
+function testUI(event) {
+  event.preventDefault();
 
-        let polarityPercent = makePercent(allData[index].polarity_confidence)
-        let subjectivityPercent = makePercent(allData[index].subjectivity_confidence)
-        
-        document.getElementById('polarity').innerHTML = 'Polarity: ' + allData[index].polarity;
-        document.getElementById('polarity_confidence').innerHTML = 'Polarity Confidence: ' + polarityPercent
-        document.getElementById('subjectivity').innerHTML = 'Subjectivity:\n ' + allData[index].subjectivity;
-        document.getElementById('subjectivity_confidence').innerHTML = 'Subjectivity Confidence: ' + subjectivityPercent
-        document.getElementById('text').innerHTML = 'Sample text: ' + allData[index].text;
-   
-      
-      } catch (error) {
-        console.log("error", error);
-      }
+  const tripInfo =
+    `<section class="info">
+      <div class="trip-info">
+          <h2 id="trip-to">Ahh, 10 days in Mozambique...</h2>
+          <h2 id="leavin-on">Leavin' on July 4th, 2020?</h2>
+      </div>
+      <h3 id="countdown">That's in 32 days!</h3>
+      <h4 id="typical-weather">Typically the high's around 85 degrees and the lows around 74 degrees... nice!</h4>
+  </section>`
+
+  let tripHTML = document.querySelector(".trip");
+  tripHTML.innerHTML = tripInfo;
 }
 
 function makePercent(decimal) {
@@ -59,4 +98,4 @@ function makePercent(decimal) {
   return percent.toFixed(2) + '%'
 }
 
-export { handleSubmit, makePercent }
+export { handleSubmit, makePercent, testUI }

@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
+const fetch = require('node-fetch');
 dotenv.config();
 
-var aylien = require("aylien_textapi");
 const bodyParser = require('body-parser');
 const express = require("express");
 const app = express();
@@ -24,44 +24,45 @@ app.get('/', function (req, res) {
 // Setup empty JS object to act as endpoint for all routes
 let projectData = [];
 
-var textapi = new aylien({
-    application_id: process.env.API_ID,
-    application_key: process.env.API_KEY
-})
+app.post('/submit', processLocation);
 
-app.post('/submit', processUrl);
+function processLocation(req, res) {
 
-function processUrl(req, res) {
-    let reqBody = req.body;
-    let urlString = reqBody.urlString;
-    
-    textapi.sentiment({
-        'url': urlString
-    }, function(error, response) {
-        if (error === null) {
-            addResponse(response);
-            res.status(201).send('OK');
-        } else {
-            res.status(500).send(error);
-        }
-    })
-}
+    let newData = req.body;
 
-function addResponse(response) {
+    // fetch weatherbit data
+    // fetch pixabay data
+    const pixaBayKey = '16971575-9bb708fd0cce1b8ad1aee6f0a';
+    const weatherBitKey = '03020132c0c2474c90f8f10c44de0ffc';
+
+    const pixaBayURL = 'https://pixabay.com/api/?key=' + pixaBayKey + '&q=' + newData.city
+
+    fetch(encodeURI(pixaBayURL))
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        });
+
+    const weatherBitURL = 'http://api.weatherbit.io/v2.0/forecast/daily' + '?key=' + weatherBitKey + '&lat=' + newData.latitude + '&lon=' + newData.longitude
+
+    fetch(encodeURI(weatherBitURL))
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        });
 
     let newEntry = {
-        polarity: response.polarity,
-        subjectivity: response.subjectivity,
-        polarity_confidence: response.polarity_confidence,
-        subjectivity_confidence: response.subjectivity_confidence,
-        text: response.text.substring(0,800)+'...'
+        latitude: newData.latitude,
+        longitude: newData.longitude,
+        country: newData.country,
+        city: newData.city,
+        depart: newData.depart,
+        comeback: newData.comeback
     }
 
-    console.log(newEntry);
+    projectData.push(newEntry)
 
-    projectData.push(newEntry);
-
-    return projectData;
+    res.send(201)
 }
 
 app.get('/all', sendData);
@@ -71,5 +72,4 @@ function sendData(request, response) {
 
 module.exports = {
     app: app,
-    addResponse: addResponse
 }

@@ -1,0 +1,159 @@
+body {
+    width: 85vw;
+    height: auto;
+    margin: auto;
+    display: grid;
+    justify-content: space-around;
+    align-items: center;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas: 
+    "header"
+    "form"
+    "trip"
+    "footer";
+}
+
+header {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.5em;
+    text-align: center;
+    width: 95vw;
+    margin: auto;
+    grid-area: header;
+    background-color: skyblue;
+    color: white;
+}
+
+form {
+    padding: 5px;
+    grid-area: form;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+    width: 95vw;
+    box-shadow: rgb(240, 240, 205) 5px 5px;
+    margin: 10px;
+}
+
+.form-field {
+    padding: 15px;
+    font-size: 2em;
+    font-family: 'Bangers', cursive;
+    width: 250px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+label {
+    padding: 10px;
+}
+
+#submit-button {
+    width: 200px;
+    height: 80px;
+    font-family: 'Bangers', cursive;
+    font-size: 1.5em;
+    background-color: rgb(68, 207, 68);
+    color: white;
+    transition: 0.3s;
+}
+
+#submit-button:hover {
+    background-color: white;
+    color: green;
+    box-shadow: rgb(240, 240, 205) 5px 5px;
+}
+
+input {
+    width: max-content;
+    height: 40px;
+    border: white;
+}
+
+.trip {
+    font-family: 'Permanent Marker', cursive;
+    grid-area: trip;
+    height: fit-content;
+    display: grid;
+    padding: 15px;
+    text-align: center;
+    align-items: center;
+    background-color: lightblue;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+    "image"
+    "info";
+}
+
+@media (min-width: 500px) {
+    .trip {
+        height: 95vh;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+        "image info";
+    }
+}
+
+.image {
+    width: auto;
+    grid-area: image;
+    margin: auto;
+    height: 45vh;
+    padding-top: 20px;
+}
+
+@media (min-width: 500px) {
+    .image {
+        padding: 30px;
+    }
+}
+
+.info {
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: lightseagreen;
+    color:white;
+    height: 45vh;
+}
+
+@media (min-width: 500px) {
+    .info {
+        height: 45vh;
+    }
+}
+
+.trip-info {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+}
+
+#trip-to {
+    font-style: oblique;
+}
+
+#leavin-on {
+    font-style: oblique;
+}
+
+#countdown {
+    font-size: 1.5;
+    font-family: 'Bangers', cursive;
+}
+
+#typical-weather {
+    padding: 20px;
+    color: white;
+}
+
+footer {
+    grid-area: footer;
+    text-align: center;
+}

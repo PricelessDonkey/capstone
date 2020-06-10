@@ -1,12 +1,9 @@
-import { checkForUrl } from './js/urlChecker'
 import { handleSubmit } from './js/formHandler'
-import './styles/base.scss'
-import './styles/footer.scss'
-import './styles/form.scss'
-import './styles/header.scss'
-import './styles/resets.scss'
+import './styles/styles.scss'
+import './styles/fonts.scss'
 
 export {
-    checkForUrl,
-    handleSubmit
+    handleSubmit,
 }
+
+document.getElementById('submit-button').addEventListener('click', handleSubmit)
