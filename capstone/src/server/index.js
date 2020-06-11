@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const fetchHelper = require('./fetchHelper')
 const urlHelper = require('./urlHelper')
 const dateHelper = require('./dateHelper')
 const dotenv = require('dotenv');
@@ -32,7 +33,7 @@ app.post('/submit', async (req, res) => {
     let city = reqBody.city;
     let geoNamesURL = urlHelper.getGeoNamesURL(city)
 
-    dateHelper.setDateInfo(reqBody, tripInfo)
+    dateHelper.setDateInfo(reqBody, tripInfo) // set departure date, countdown, and length of trip in tripInfo object
 
     let response = await fetch(geoNamesURL)
     try {
@@ -44,8 +45,8 @@ app.post('/submit', async (req, res) => {
         tripInfo.country = country
         tripInfo.city = city
 
-        await getPixabayData(city, tripInfo)
-        await getWeatherBitData(latitude, longitude, tripInfo)
+        await fetchHelper.getPixabayData(city, tripInfo)
+        await fetchHelper.getWeatherBitData(latitude, longitude, tripInfo)
 
     } catch (error) {
         console.log("error", error);
@@ -55,39 +56,6 @@ app.post('/submit', async (req, res) => {
     projectData.push(tripInfo);
     res.sendStatus(201);
 });
-
-let getPixabayData = async (city, tripInfo) => {
-    let pixabayURL = urlHelper.getPixabayURL(city)
-    let response = await fetch(pixabayURL)
-
-    try {
-        let data = await response.json()
-
-        if (data.totalHits < 1) {
-            tripInfo.image = false
-        } else {
-            tripInfo.image = data.hits[0].largeImageURL;
-        }
-
-    } catch (error) {
-        console.log("error", error);
-    }
-}
-
-let getWeatherBitData = async (latitude, longitude, tripInfo) => {
-    let weatherBitURL = urlHelper.getWeatherBitURL(latitude, longitude)
-    let response = await fetch(weatherBitURL)
-
-    try {
-        let data = await response.json()
-        const weatherBitData = data.data[tripInfo.countdown];
-        tripInfo.low = weatherBitData.low_temp;
-        tripInfo.high = weatherBitData.max_temp;
-
-    } catch (error) {
-        console.log("error", error);
-    }
-}
 
 app.get('/all', (req, res) => {
     res.send(projectData);
