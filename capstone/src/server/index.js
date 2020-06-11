@@ -1,8 +1,7 @@
-const dotenv = require('dotenv');
 const fetch = require('node-fetch');
 const urlHelper = require('./urlHelper')
 const dateHelper = require('./dateHelper')
-
+const dotenv = require('dotenv');
 dotenv.config();
 
 const bodyParser = require('body-parser');
