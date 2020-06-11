@@ -1,5 +1,8 @@
 const dotenv = require('dotenv');
 const fetch = require('node-fetch');
+const urlHelper = require('./urlHelper')
+const dateHelper = require('./dateHelper')
+
 dotenv.config();
 
 const bodyParser = require('body-parser');
@@ -24,51 +27,72 @@ app.get('/', function (req, res) {
 // Setup empty JS object to act as endpoint for all routes
 let projectData = [];
 
-app.post('/submit', processLocation);
+app.post('/submit', async (req, res) => {
+    let tripInfo = new Object(); // store response data in here
+    let reqBody = req.body;
+    let city = reqBody.city;
+    let geoNamesURL = urlHelper.getGeoNamesURL(city)
 
-function processLocation(req, res) {
+    dateHelper.setDateInfo(reqBody, tripInfo)
 
-    let newData = req.body;
+    let response = await fetch(geoNamesURL)
+    try {
+        let data = await response.json()
+        let latitude = data.geonames[0].lat
+        let longitude = data.geonames[0].lng
+        let country = data.geonames[0].countryName
 
-    // fetch weatherbit data
-    // fetch pixabay data
-    const pixaBayKey = '16971575-9bb708fd0cce1b8ad1aee6f0a';
-    const weatherBitKey = '03020132c0c2474c90f8f10c44de0ffc';
+        tripInfo.country = country
+        tripInfo.city = city
 
-    const pixaBayURL = 'https://pixabay.com/api/?key=' + pixaBayKey + '&q=' + newData.city
+        await getPixabayData(city, tripInfo)
+        await getWeatherBitData(latitude, longitude, tripInfo)
 
-    fetch(encodeURI(pixaBayURL))
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        });
-
-    const weatherBitURL = 'http://api.weatherbit.io/v2.0/forecast/daily' + '?key=' + weatherBitKey + '&lat=' + newData.latitude + '&lon=' + newData.longitude
-
-    fetch(encodeURI(weatherBitURL))
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        });
-
-    let newEntry = {
-        latitude: newData.latitude,
-        longitude: newData.longitude,
-        country: newData.country,
-        city: newData.city,
-        depart: newData.depart,
-        comeback: newData.comeback
+    } catch (error) {
+        console.log("error", error);
+        res.sendStatus(500);
     }
 
-    projectData.push(newEntry)
+    projectData.push(tripInfo);
+    res.sendStatus(201);
+});
 
-    res.send(201)
+let getPixabayData = async (city, tripInfo) => {
+    let pixabayURL = urlHelper.getPixabayURL(city)
+    let response = await fetch(pixabayURL)
+
+    try {
+        let data = await response.json()
+
+        if (data.totalHits < 1) {
+            tripInfo.image = 'placeholder'
+        } else {
+            tripInfo.image = data.hits[0].largeImageURL;
+        }
+
+    } catch (error) {
+        console.log("error", error);
+    }
 }
 
-app.get('/all', sendData);
-function sendData(request, response) {
-    response.send(projectData);
+let getWeatherBitData = async (latitude, longitude, tripInfo) => {
+    let weatherBitURL = urlHelper.getWeatherBitURL(latitude, longitude)
+    let response = await fetch(weatherBitURL)
+
+    try {
+        let data = await response.json()
+        const weatherBitData = data.data[tripInfo.countdown];
+        tripInfo.low = weatherBitData.low_temp;
+        tripInfo.high = weatherBitData.max_temp;
+
+    } catch (error) {
+        console.log("error", error);
+    }
 }
+
+app.get('/all', (req, res) => {
+    res.send(projectData);
+})
 
 module.exports = {
     app: app,

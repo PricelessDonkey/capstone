@@ -1,10 +1,10 @@
 import 'regenerator-runtime/runtime.js' // for jest tests
 
-function handleSubmit(event) {
+async function handleSubmit(event) {
   event.preventDefault()
 
   // add function to validate inputs
-  // fields may not be empty, dates must be chronological
+  // fields may not be empty, dates must be chronological, dates must be within the next 16 days
   let city = document.getElementById('city').value
   let depart = document.getElementById('depart').value
   let comeback = document.getElementById('return').value
@@ -14,48 +14,25 @@ function handleSubmit(event) {
   //     return;
   // }
 
-  // let requestPayload = {
-  //   city: city,
-  //   depart: depart,
-  //   comeback: comeback
-  // }
+  let requestPayload = {
+    city: city,
+    depart: depart,
+    comeback: comeback
+  }
 
-  const geoNameBaseURL = 'http://api.geonames.org/searchJSON?q='
-  const geoNameUserName = '&fuzzy=0&maxRows=1&username=sdrilias'
-  const URL = geoNameBaseURL + city + geoNameUserName;
-  console.log(URL);
-  let encodedURL = encodeURI(URL);
-
-  fetch(encodedURL)
-    .then(response => response.json())
-    .then(data => {
-      // latitude, longitude, country
-      let latitude = data.geonames[0].lat
-      let longitude = data.geonames[0].lng
-      let country = data.geonames[0].countryName
-
-      // save to server
-      let requestPayload = {
-        latitude: latitude,
-        longitude:longitude,
-        country: country,
-        city: city,
-        depart: depart,
-        comeback: comeback
-      }
-
-      postData('/submit', requestPayload)
-        .then(() => updateUI())
-        .catch(function (error) {
-          alert(error)
-        })
-    });
+  postData('/submit', requestPayload)
+    .then(function () {
+      updateUI()
+    })
+    .catch(function (error) {
+      alert(error)
+    })
 };
 
 // post data
 const postData = async (url = '', requestPayload = {}) => {
 
-  fetch(url, {
+  const response = await fetch(url, {
     method: 'POST',
     credentials: 'same-origin',
     headers: {
@@ -66,11 +43,13 @@ const postData = async (url = '', requestPayload = {}) => {
 }
 
 const updateUI = async () => {
-  fetch('/all')
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-    });
+  const response = await fetch('/all')
+  try {
+    const jsonResponse = await response.json();
+    console.log(jsonResponse);
+  } catch (error) {
+    console.log("error", error);
+  }
 }
 
 // `<section class="image">
@@ -93,9 +72,4 @@ function testUI(event) {
   tripHTML.innerHTML = tripInfo;
 }
 
-function makePercent(decimal) {
-  let percent = decimal * 100
-  return percent.toFixed(2) + '%'
-}
-
-export { handleSubmit, makePercent, testUI }
+export { handleSubmit }
