@@ -29,7 +29,7 @@ function checkInput(city, depart, comeback) {
         return false;
     }
     if (getCountdown(new Date(depart)) > 15) {
-        alert('Departure date must be within 15 days')
+        alert('Departure date must be within 16 days')
         return false;
     }
 
