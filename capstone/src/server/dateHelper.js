@@ -8,12 +8,24 @@ function setDateInfo(reqBody, tripInfo) {
     depart= new Date(depart)
     comeback = new Date(comeback)
 
-    let today = new Date()
-    console.log(today);
+    let today = getToday();
 
     tripInfo.countdown = getCountdown(today, depart)
     tripInfo.tripLength = getTripLength(depart, comeback)
     tripInfo.depart = depart.toDateString();
+}
+
+function getToday() {
+    let dateTime = new Date();
+    let year = dateTime.getFullYear();
+    let month = dateTime.getMonth() + 1;
+    let day = dateTime.getDate();
+
+    if (day < 10) day = '0' + day
+    if (month < 10) month = '0' + month
+
+
+    return new Date(`${month}/${day}/${year}`)
 }
 
 function getCountdown(today, depart) {
@@ -33,3 +45,5 @@ function getTripLength(depart, comeback) {
 }
 
 exports.setDateInfo = setDateInfo;
+exports.getCountdown = getCountdown;
+exports.getTripLength = getTripLength;

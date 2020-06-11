@@ -4,16 +4,13 @@ import earth from '../media/earth.png'
 async function handleSubmit(event) {
   event.preventDefault()
 
-  // add function to validate inputs
-  // fields may not be empty, dates must be chronological, dates must be within the next 16 days
   let city = document.getElementById('city').value
   let depart = document.getElementById('depart').value
   let comeback = document.getElementById('return').value
 
-  // if (!Client.checkForUrl(userEntry)) {
-  //     alert('URL must start with http:// or https://')
-  //     return;
-  // }
+  if (!Client.checkInput(city, depart, comeback)) {
+      return;
+  }
 
   let requestPayload = {
     city: city,
