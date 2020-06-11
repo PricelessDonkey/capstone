@@ -64,7 +64,7 @@ let getPixabayData = async (city, tripInfo) => {
         let data = await response.json()
 
         if (data.totalHits < 1) {
-            tripInfo.image = 'placeholder'
+            tripInfo.image = false
         } else {
             tripInfo.image = data.hits[0].largeImageURL;
         }

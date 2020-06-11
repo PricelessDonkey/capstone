@@ -1,6 +1,8 @@
 # Project Instructions
 
-The purpose of this project was to utilize webpack in order to leverage the Alyien CDK, load sass files, and build an express app.
+This is the Front End Web Developer Capstone project for Udacity. The extra piece of functionality i added was:
+
+Add end date and display length of trip.
 
 ## Information
 
@@ -9,5 +11,5 @@ The main requirements were:
 2. use webpack to have separate production and development builds
 3. use Jest to add unit tests for relevant JS files
 4. use service workers to cache the page
-
-I also added some styling to make the page more visually appealing. 
+5. call three different APIs and dynamically update the page with the results
+6. create a responsive UI that works on both mobile and desklop platforms

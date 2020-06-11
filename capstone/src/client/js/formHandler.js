@@ -58,7 +58,7 @@ const updateUI = async () => {
     let image = trip.image
 
     // use earth image if no image was returned by API
-    if (image == '') {
+    if (!image) {
       image = earth;
     }
     
