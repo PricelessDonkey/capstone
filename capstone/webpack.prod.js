@@ -20,10 +20,20 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader']
-            }
-        ]
-    },
-    plugins: [
+            },
+            {
+                test: /\.(png|jpg|gif)$/i,
+                use: [
+                    {
+                        loader: 'url-loader?name=media/[name].[ext]',
+                        options: {
+                            limit: 50000,
+                        },
+                    },
+                ],
+            },
+        ],
+    }, plugins: [
         new HtmlWebPackPlugin({
             template: "./src/client/views/index.html",
             filename: "./index.html",

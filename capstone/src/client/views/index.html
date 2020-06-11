@@ -1,48 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title>Evaluate News</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <header>
-            <h1>
-                Trip Planner
-            </h1>
-        </header>
-        <form>
-                <section class="form-field">
-                    <label for="where">Where?</label>
-                    <input id="city" type="text" name="input" value="" placeholder="Enter a city">
-                </section>
-                <section class="form-field">
-                    <label for="depart">Depart?</label>
-                    <input id="depart" type="date" name="input" value="">
-                </section>
-                <section class="form-field">
-                    <label for="return">Return?</label>
-                    <input id="return" type="date" name="input" value="">
-                </section>
-                <section class="form-field">
-                    <input type="submit" id="submit-button" value="Let's go!">
-                </section>
-        </form>
-        <section class="trip">
-            <!-- <section class="image">
-                <img src={placeholder} alt="placeholder" width="360" height="240">
-            </section>
-            <section class="info">
-                <div class="trip-info">
-                    <h2 id="trip-to">Ahh, 10 days in Mozambique...</h2>
-                    <h2 id="leavin-on">Leavin' on July 4th, 2020?</h2>
-                </div>
-                <h3 id="countdown">That's in 32 days!</h3>
-                <h4 id="typical-weather">Typically the high's around 85 degrees and the lows around 74 degrees... nice!</h4>
-            </section> -->
+
+<head>
+    <meta charset="utf-8">
+    <title>Trip Planner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <header>
+        <h1>
+            Trip Planner
+        </h1>
+    </header>
+    <form>
+        <section class="form-field">
+            <label for="where">Where?</label>
+            <input id="city" type="text" name="input" value="" placeholder="Enter a city">
         </section>
-        <footer class="footer">
-            <p>hi, this is the footer</p>
-        </footer>
-    </body>
+        <section class="form-field">
+            <label for="depart">Depart?</label>
+            <input id="depart" type="date" name="input" value="">
+        </section>
+        <section class="form-field">
+            <label for="return">Return?</label>
+            <input id="return" type="date" name="input" value="">
+        </section>
+        <section class="form-field">
+            <input type="submit" id="submit-button" value="Let's go!">
+        </section>
+    </form>
+    <section class="trip">
+        <section class="image">
+            <img id="earth" alt="earth">
+        </section>
+        <div class="info">
+            <h2 class="welcome">
+                Welcome!</h2>
+            <h4 class="instructions">
+                Enter a city and some dates above to get the forecast for your arrival. Your departure date must be
+                within the next 16 days!
+            </h4>
+        </div>
+    </section>
+    <footer class="footer">
+        <p>Images provided by <a href="https://pixabay.com/">Pixabay</a></p>
+        <img id="pixabayIcon" width="40">
+    </footer>
+</body>
+
 </html>

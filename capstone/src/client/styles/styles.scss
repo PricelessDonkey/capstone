@@ -19,6 +19,7 @@ header {
     text-align: center;
     width: 95vw;
     margin: auto;
+    margin-top: 10px;
     grid-area: header;
     background-color: skyblue;
     color: white;
@@ -72,6 +73,13 @@ input {
     width: max-content;
     height: 40px;
     border: white;
+    color: green;
+    font-family: 'Architects Daughter', cursive;
+
+}
+
+input:hover {
+    box-shadow: rgb(240, 240, 205) 5px 5px;
 }
 
 .trip {
@@ -98,12 +106,25 @@ input {
     }
 }
 
+img {
+    width:100%;
+    max-width:90vw;
+}
+
+@media (min-width: 500px) {
+    img {
+        max-width: 45vw;
+    }
+}
+
+
 .image {
     width: auto;
     grid-area: image;
     margin: auto;
-    height: 45vh;
+    height: auto;
     padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 @media (min-width: 500px) {
@@ -120,35 +141,52 @@ input {
     align-items: center;
     background-color: lightseagreen;
     color:white;
-    height: 45vh;
+    height: fit-content;
+    font-family: 'Sriracha', cursive;
+}
+
+.info .welcome {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 3em;
+}
+
+.info .instructions {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.5em;
+    text-align: center;
+    padding: 10px;
 }
 
 @media (min-width: 500px) {
     .info {
-        height: 45vh;
+        height: fit-content;
     }
 }
 
 .trip-info {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-content: flex-start;
 }
 
 #trip-to {
-    font-style: oblique;
+    padding: 10px;
+    font-family: 'Sriracha', cursive;
 }
 
 #leavin-on {
-    font-style: oblique;
+    font-family: 'Sriracha', cursive;
 }
 
 #countdown {
-    font-size: 1.5;
+    font-size: 3em;
     font-family: 'Bangers', cursive;
+    color: pink;
 }
 
 #typical-weather {
+    font-family: 'Sriracha', cursive;
     padding: 20px;
     color: white;
 }
@@ -156,4 +194,10 @@ input {
 footer {
     grid-area: footer;
     text-align: center;
+    font-size: x-small;
+}
+
+#pixabayIcon {
+    width:100%;
+    max-width:35px;
 }

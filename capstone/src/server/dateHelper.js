@@ -1,10 +1,19 @@
 function setDateInfo(reqBody, tripInfo) {
-    let depart = new Date(reqBody.depart)
-    let comeback = new Date(reqBody.comeback)
+    let depart = reqBody.depart;
+    let comeback = reqBody.comeback;
+
+    depart = depart.replace(/-/, '/').replace(/-/, '/')
+    comeback =comeback.replace(/-/, '/').replace(/-/, '/')
+        
+    depart= new Date(depart)
+    comeback = new Date(comeback)
+
     let today = new Date()
+    console.log(today);
 
     tripInfo.countdown = getCountdown(today, depart)
     tripInfo.tripLength = getTripLength(depart, comeback)
+    tripInfo.depart = depart.toDateString();
 }
 
 function getCountdown(today, depart) {
