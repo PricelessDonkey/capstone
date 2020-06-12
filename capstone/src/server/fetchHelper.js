@@ -1,6 +1,7 @@
 const urlHelper = require('./urlHelper')
 const fetch = require('node-fetch');
 
+// fetches data from the pixabay api
 let getPixabayData = async (city, tripInfo) => {
     let pixabayURL = urlHelper.getPixabayURL(city)
     let response = await fetch(pixabayURL)
@@ -19,6 +20,7 @@ let getPixabayData = async (city, tripInfo) => {
     }
 }
 
+// fetches data from the weaterbit api
 let getWeatherBitData = async (latitude, longitude, tripInfo) => {
     let weatherBitURL = urlHelper.getWeatherBitURL(latitude, longitude)
     let response = await fetch(weatherBitURL)

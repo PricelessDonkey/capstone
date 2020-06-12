@@ -1,3 +1,4 @@
+// sets date info in the tripInfo object
 function setDateInfo(reqBody, tripInfo) {
     let depart = reqBody.depart;
     let comeback = reqBody.comeback;
@@ -15,6 +16,7 @@ function setDateInfo(reqBody, tripInfo) {
     tripInfo.depart = depart.toDateString();
 }
 
+// gets todays date 
 function getToday() {
     let dateTime = new Date();
     let year = dateTime.getFullYear();
@@ -28,6 +30,7 @@ function getToday() {
     return new Date(`${month}/${day}/${year}`)
 }
 
+// gets the countdown
 function getCountdown(today, depart) {
     const ms = 24 * 60 * 60 * 1000;
     const msCountdown = depart.getTime() - today.getTime();
@@ -36,6 +39,7 @@ function getCountdown(today, depart) {
     return Math.round(countdown);
 }
 
+// calculates the trip length
 function getTripLength(depart, comeback) {
     const ms = 24 * 60 * 60 * 1000;
     const msLength = comeback.getTime() - depart.getTime();
