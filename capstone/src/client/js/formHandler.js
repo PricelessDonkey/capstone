@@ -44,18 +44,16 @@ const updateUI = async () => {
   const response = await fetch('/all')
   try {
     const jsonResponse = await response.json();
-    const index = jsonResponse.length - 1;
-    const trip = jsonResponse[index];
+   
+    const city = jsonResponse.city
+    const countdown = jsonResponse.countdown
+    const country = jsonResponse.country
+    const depart = jsonResponse.depart
+    const high = jsonResponse.high
+    const low = jsonResponse.low
+    const tripLength = jsonResponse.tripLength
 
-    const city = trip.city
-    const countdown = trip.countdown
-    const country = trip.country
-    const depart = trip.depart
-    const high = trip.high
-    const low = trip.low
-    const tripLength = trip.tripLength
-
-    let image = trip.image
+    let image = jsonResponse.image
 
     // use earth image if no image was returned by API
     if (!image) {
@@ -74,10 +72,10 @@ const updateUI = async () => {
     </section>
     <section class="info">
       <div class="trip-info">
-          <h2 id="trip-to">Ahh, ${tripLength} days in ${city}. I hear ${country} is beautiful this time of year...</h2>
+          <h2 id="trip-to">Ahh, (LENGTH OF TRIP) ${tripLength} days in ${city}. I hear ${country} is beautiful this time of year...</h2>
           <h2 id="leavin-on">Leavin' on ${depart}?</h2>
       </div>
-      <h3 id="countdown">That's in ${countdown} ${dayUnit}!</h3>
+      <h3 id="countdown">(COUNTDOWN) That's in ${countdown} ${dayUnit}!</h3>
       <h4 id="typical-weather">Typically the high's around ${high} degrees and the lows around ${low} degrees... nice!</h4>
     </section>`
 

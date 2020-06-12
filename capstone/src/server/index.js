@@ -25,10 +25,10 @@ app.get('/', function (req, res) {
 })
 
 // Setup empty JS object to act as endpoint for all routes
-let projectData = [];
+let tripInfo = new Object();
 
 app.post('/submit', async (req, res) => {
-    let tripInfo = new Object(); // store response data in here
+    tripInfo = new Object(); // create fresh instance of tripInfo object
     let reqBody = req.body;
     let city = reqBody.city;
     let geoNamesURL = urlHelper.getGeoNamesURL(city)
@@ -53,12 +53,11 @@ app.post('/submit', async (req, res) => {
         res.sendStatus(500);
     }
 
-    projectData.push(tripInfo);
     res.sendStatus(201);
 });
 
 app.get('/all', (req, res) => {
-    res.send(projectData);
+    res.send(tripInfo);
 })
 
 module.exports = {
